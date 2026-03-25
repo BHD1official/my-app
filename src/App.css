@@ -25,7 +25,7 @@ html, body {
   display: flex;
   justify-content: center;
 }
-button {  -webkit-appearance: none; touch-action: manipulation; cursor: pointer; }
+button { -webkit-appearance: none; touch-action: manipulation; cursor: pointer; }
 ::-webkit-scrollbar { display: none; }
 * { scrollbar-width: none; }
 
@@ -35,34 +35,97 @@ button {  -webkit-appearance: none; touch-action: manipulation; cursor: pointer;
   direction: rtl;
   width: 100%;
   max-width: 430px;
-  min-height: 100dvh;
+  height: 100dvh;
   margin: 0 auto;
   background: #F4EDE3;
   display: flex;
   flex-direction: column;
-  overflow-x: hidden;
-  padding-bottom: env(safe-area-inset-bottom);
-  
-  
+  overflow: hidden;
 }
 
 /* ── לוגואים עליונים ── */
-.top-logos { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px 0; }
-.top-logos .gapa-logo { width: 90px; height: 14px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; }
-.top-logos .gapa-logo-img {    width: 41px;}
-.top-logos .logo-badge  { border-radius: 10px; padding: 3px 10px; text-align: center; line-height: 1.4; }
-.top-logos .logo-badge span { display: block; font-size: 10px; font-weight: 700; }
+.top-logos {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px 0;
+  background: transparent;
+  position: relative;
+  z-index: 2;
+}
+.top-logos .gapa-logo { display: flex; align-items: center; justify-content: center; }
+.top-logos .gapa-logo-img { width: 40px; height: auto; }
+.top-logos .logo-badge { display: flex; align-items: center; justify-content: center; }
 
-/* ── כותרת עגולה ── */
-.pill-header { border-radius: 0 0 34px 34px; padding-bottom: 22px; color: white; flex-shrink: 0; }
-.pill-header .header-subtitle { text-align: center; font-size: 13px; margin-top: 10px; opacity: 0.85; }
-.pill-header .header-title    { text-align: center; font-size: 26px; font-weight: 800; }
+/* ── כותרת עם path — ללא רקע בין לוגו לכותרת ── */
+.pill-header-wrap {
+  flex-shrink: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.pill-header-svg-wrap {
+  width: 100%;
+  position: relative;
+}
+
+.pill-header-svg-wrap svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* לוגואים מעל ה-SVG */
+.pill-logos-overlay {
+  position: absolute;
+  top: 12px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 18px;
+  pointer-events: none;
+}
+
+.pill-logo-img {
+  width: 38px;
+  height: auto;
+}
+
+/* טקסט מעל ה-SVG */
+.pill-text-overlay {
+  position: absolute;
+  bottom: 16px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  pointer-events: none;
+  padding: 0 16px;
+}
+
+.pill-subtitle {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.85);
+  margin-bottom: 4px;
+  font-family: 'Heebo', 'Arial Hebrew', Arial, sans-serif;
+}
+
+.pill-title {
+  font-size: clamp(18px, 5vw, 26px);
+  font-weight: 800;
+  color: white;
+  font-family: 'Heebo', 'Arial Hebrew', Arial, sans-serif;
+  line-height: 1.2;
+}
 
 /* ── כותרת מסך מבחן ── */
 .quiz-header { background: #4A3020; border-radius: 0 0 34px 34px; padding-bottom: 24px; color: white; text-align: center; flex-shrink: 0; }
-.quiz-header .quiz-header-top  { padding: 14px 20px 0; display: flex; justify-content: flex-end; font-size: 18px; opacity: 0.4; }
 .quiz-header .pencil-circle    { width: 56px; height: 56px; border-radius: 50%; background: #C49A3C; color: white; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; }
 .quiz-header .quiz-header-title{ font-size: 28px; font-weight: 800; }
+.back-btn { background: none; border: none; color: white; font-size: 20px; padding: 14px 20px 0; display: block; }
 
 /* ── בר תחתון ── */
 .home-bar { border-radius: 26px 26px 0 0; padding: 12px 0; padding-bottom: calc(16px + env(safe-area-inset-bottom)); display: flex; justify-content: center; flex-shrink: 0; margin-top: auto; }
@@ -88,49 +151,251 @@ button {  -webkit-appearance: none; touch-action: manipulation; cursor: pointer;
 .quiz-btn .quiz-btn-sub   { font-size: 12px; color: #C9AD8A; }
 .quiz-btn .quiz-btn-arrow { width: 34px; height: 34px; border-radius: 50%; background: #2E1A0A; color: white; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 
-/* ── כרטיסיית נושא ── */
-.topic-card { border-radius: 16px; margin-bottom: 10px; overflow: hidden; }
-.topic-card .topic-row        { display: flex; align-items: center; padding: 13px 14px; gap: 10px; }
-.topic-card .topic-book-icon  { width: 36px; height: 36px; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.topic-card .topic-text       { flex: 1; text-align: right; min-width: 0; }
-.topic-card .topic-title      { font-size: 14px; font-weight: 700; color: #3D2912; line-height: 1.4; }
-.topic-card .topic-desc       { font-size: 12px; color: #9A8472; margin-top: 1px; }
-.topic-card .topic-toggle-btn { margin-top: 4px; background: none; border: none; padding: 0; display: inline-flex; align-items: center; font-family: 'Heebo', 'Arial Hebrew', Arial, sans-serif; }
-.topic-card .topic-id-badge   { color: white; border-radius: 10px; padding: 4px 12px; font-size: 14px; font-weight: 800; flex-shrink: 0; }
-.topic-card .topic-content    { background: white; margin: 0 12px 12px; border-radius: 12px; padding: 14px 16px; font-size: 13px; color: #3D2912; line-height: 1.9; white-space: pre-line; text-align: right; }
-.topic-card .topic-content-title { font-weight: 700; margin-bottom: 8px; }
+/* ══════════════════════════════════════════
+   TOPIC CARD — expandable (no flip)
+   ══════════════════════════════════════════ */
 
-/* ── ניווט תחתון פרק ── */
-.chapter-nav { border-radius: 26px 26px 0 0; flex-shrink: 0; padding-bottom: env(safe-area-inset-bottom); }
-.chapter-nav .home-row      { display: flex; justify-content: center; padding: 12px 0 6px; }
-.chapter-nav .home-circle-btn { width: 50px; height: 50px; border-radius: 50%; background: white; border: none; display: flex; align-items: center; justify-content: center; }
-.chapter-nav .nav-row       { display: flex; gap: 10px; padding: 4px 16px 16px; }
-.chapter-nav .nav-btn       { flex: 1; border: none; border-radius: 12px; padding: 12px 0; font-size: 15px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 6px; font-family: 'Heebo', 'Arial Hebrew', Arial, sans-serif; }
+.topic-card {
+  width: 100%;
+  margin-bottom: 10px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+/* shared row / badge / icon styles */
+.topic-row {
+  display: flex;
+  align-items: center;
+  padding: 13px 14px;
+  gap: 10px;
+}
+
+.topic-book-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.topic-text {
+  flex: 1;
+  text-align: right;
+  min-width: 0;
+  direction: rtl;
+}
+
+.topic-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #3D2912;
+  line-height: 1.4;
+}
+
+.topic-desc {
+  font-size: 12px;
+  color: #9A8472;
+  margin-top: 2px;
+  line-height: 1.5;
+}
+
+.topic-toggle-btn {
+  margin-top: 5px;
+  background: none;
+  border: none;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: 'Heebo', 'Arial Hebrew', Arial, sans-serif;
+  cursor: pointer;
+}
+
+.topic-id-badge {
+  color: white;
+  border-radius: 10px;
+  padding: 4px 12px;
+  font-size: 14px;
+  font-weight: 800;
+  flex-shrink: 0;
+  align-self: flex-start;
+  margin-top: 4px;
+}
+
+/* content area shared */
+.topic-content {
+  background: white;
+  margin: 0 12px 12px;
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-size: 13px;
+  color: #3D2912;
+  text-align: right;
+  direction: rtl;
+}
+
+.topic-content-title {
+  font-weight: 700;
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+
+/* ── רשימת תת-נושאים ── */
+.sections-list {
+  list-style: none;
+  margin: 6px 0 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.section-list-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 12px;
+  border-radius: 10px;
+  background: #F7F2EC;
+  cursor: pointer;
+  transition: background 0.15s;
+  direction: rtl;
+  border: none;
+  width: 100%;
+  text-align: right;
+  font-family: 'Heebo', 'Arial Hebrew', Arial, sans-serif;
+}
+
+.section-list-item:active {
+  background: #EDE8E0;
+}
+
+.section-list-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.section-list-label {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  color: #3D2912;
+}
+
+.section-list-arrow {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  opacity: 0.7;
+}
+
+/* ── תוכן סעיף — צד אחורי ── */
+.section-panel-divider {
+  height: 1px;
+  margin-bottom: 12px;
+  border-radius: 1px;
+}
+
+/* RTL-correct content rendering */
+.section-content-rtl {
+  direction: rtl;
+  text-align: right;
+  font-size: 13.5px;
+  line-height: 1.9;
+  color: #3D2912;
+}
+
+.content-line {
+  margin-bottom: 6px;
+  word-break: break-word;
+}
+
+.content-item {
+  margin-bottom: 6px;
+  padding-right: 6px;
+  border-right: 3px solid #E8DDD0;
+  word-break: break-word;
+}
+
+/* ── layout פרק — גלילה עם nav דביק ── */
+.chapter-screen-top {
+  flex-shrink: 0;
+}
+
+.chapter-screen-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 18px 12px;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ── ניווט תחתון — נשאר למטה כי shell=100dvh ── */
+.chapter-nav-sticky {
+  flex-shrink: 0;
+  border-radius: 26px 26px 0 0;
+  padding-bottom: calc(16px + env(safe-area-inset-bottom));
+}
+
+.chapter-nav-sticky .home-row {
+  display: flex;
+  justify-content: center;
+  padding: 12px 0 6px;
+}
+
+.chapter-nav-sticky .home-circle-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chapter-nav-sticky .nav-row {
+  display: flex;
+  gap: 10px;
+  padding: 4px 16px 16px;
+}
+
+.nav-btn {
+  flex: 1;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 0;
+  font-size: 15px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-family: 'Heebo', 'Arial Hebrew', Arial, sans-serif;
+}
 
 /* ── בחירת פרקים למבחן ── */
-.quiz-select-desc { padding: 20px 20px 8px; text-align: center; }
-.quiz-select-desc .quiz-select-heading { font-size: 18px; font-weight: 700; color: #3D2912; }
-.quiz-select-desc .quiz-select-sub     { font-size: 13px; color: #9A8472; margin-top: 4px; }
 .quiz-select-grid    { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; padding: 4px 20px 18px; }
 .quiz-select-card    { border-radius: 18px; padding: 18px 10px 14px; display: flex; flex-direction: column; align-items: center; gap: 8px; font-family: 'Heebo', 'Arial Hebrew', Arial, sans-serif; }
 .quiz-select-card .card-icon  { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 26px; }
 .quiz-select-card .card-label { font-size: 13px; font-weight: 700; text-align: center; }
-.quiz-select-footer  { padding: 0 20px; }
 .start-quiz-btn      { border: none; border-radius: 18px; width: 100%; padding: 16px 0; font-size: 16px; font-weight: 700; font-family: 'Heebo', 'Arial Hebrew', Arial, sans-serif; margin-bottom: 30px; }
 
 /* ── הוראות מבחן ── */
-.instructions-wrap  { flex: 1; padding: 30px 22px; display: flex; flex-direction: column; justify-content: center; }
 .instructions-box   { background: white; border-radius: 20px; padding: 24px 22px; margin-bottom: 28px; box-shadow: 0 2px 16px rgba(0,0,0,0.07); text-align: right; }
 .instructions-box .instructions-title { font-size: 17px; font-weight: 800; color: #3D2912; text-align: center; margin-bottom: 16px; }
 .instructions-box .instructions-text  { font-size: 14px; color: #3D2912; line-height: 2; }
-.begin-btn { background: #C49A3C; color: white; border: none; border-radius: 18px; width: 100%; padding: 16px 0; font-size: 18px; font-weight: 700; font-family: 'Heebo', 'Arial Hebrew', Arial, sans-serif; }
 
 /* ── שאלת מבחן ── */
 .question-header { background: #4A3020; border-radius: 0 0 28px 28px; padding: 14px 20px 20px; color: white; flex-shrink: 0; }
 .question-header .q-top-row     { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
 .question-header .q-counter     { font-size: 12px; opacity: 0.65; }
 .question-header .q-title       { font-size: 16px; font-weight: 800; }
-.question-header .q-spacer      { width: 30px; }
 .question-header .progress-track{ background: rgba(255,255,255,0.18); border-radius: 6px; height: 6px; }
 .question-header .progress-fill { background: white; height: 100%; border-radius: 6px; transition: width 0.3s; }
 .question-body  { flex: 1; padding: 26px 20px 10px; overflow-y: auto; }
@@ -145,38 +410,163 @@ button {  -webkit-appearance: none; touch-action: manipulation; cursor: pointer;
 .question-nav .nav-prev-btn { flex: 1; background: white; color: #4A3020; border: none; border-radius: 14px; padding: 14px 0; font-size: 15px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 6px; font-family: 'Heebo', 'Arial Hebrew', Arial, sans-serif; }
 
 /* ── תוצאות ── */
-.results-body { flex: 1; padding: 22px 20px; overflow-y: auto; }
-.score-circle-wrap  { display: flex; justify-content: center; margin-bottom: 18px; }
-.score-circle       { width: 118px; height: 118px; border-radius: 50%; background: white; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-.score-circle .score-pct   { font-size: 34px; font-weight: 800; color: #3D2912; }
-.score-circle .score-label { font-size: 13px; color: #9A8472; }
-.result-message            { text-align: center; margin-bottom: 20px; }
-.result-message .result-title { font-size: 18px; font-weight: 700; color: #3D2912; margin-bottom: 8px; }
-.result-message .result-sub   { font-size: 14px; color: #7A5C3A; line-height: 1.7; white-space: pre-line; }
-.review-toggle-btn  { border: none; border-radius: 16px; width: 100%; padding: 15px 0; font-size: 16px; font-weight: 700; color: white; font-family: 'Heebo', 'Arial Hebrew', Arial, sans-serif; margin-bottom: 10px; }
-.review-list        { background: #EDE5D8; border-radius: 16px; padding: 14px 14px 4px; margin-bottom: 10px; }
-.review-item        { background: white; border-radius: 14px; padding: 12px 14px; margin-bottom: 8px; display: flex; align-items: flex-start; gap: 10px; }
-.review-item .review-hand   { color: #C9AD8A; flex-shrink: 0; margin-top: 2px; }
-.review-item .review-text   { flex: 1; text-align: right; }
-.review-item .review-q-num  { font-size: 13px; font-weight: 700; color: #3D2912; margin-bottom: 3px; }
-.review-item .review-q-text { font-size: 12px; color: #9A8472; margin-bottom: 3px; }
-.review-item .review-answer { font-size: 12px; }
-.review-item .muted         { color: #9A8472; }
-.review-item .review-badge  { color: white; border-radius: 8px; padding: 3px 9px; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+.score-circle-wrap  { display: flex; justify-content: center; margin-bottom: 16px; }
+.score-circle       { width: 110px; height: 110px; border-radius: 50%; background: white; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.score-circle .score-pct   { font-size: 32px; font-weight: 800; color: #3D2912; }
+.score-circle .score-label { font-size: 12px; color: #9A8472; }
+.result-message            { text-align: center; margin-bottom: 16px; }
+.result-message .result-title { font-size: 17px; font-weight: 700; color: #3D2912; margin-bottom: 6px; }
+.result-message .result-sub   { font-size: 13px; color: #7A5C3A; line-height: 1.6; }
+
+.review-section-title {
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 12px;
+  opacity: 0.8;
+}
+
+/* ── כרטיסיות שאלה עם flip ── */
+.q-cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.section-back-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.section-back-btn {
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: 'Heebo', 'Arial Hebrew', Arial, sans-serif;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.section-back-title {
+  font-size: 14px;
+  font-weight: 800;
+  text-align: right;
+  flex: 1;
+}
+
+/* ── רשימת כרטיסיות שאלה ── */
+.q-card {
+  width: 100%;
+  background: white;
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: pointer;
+  direction: rtl;
+}
+
+.q-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s;
+}
+
+.q-card.open .q-card-header {
+  border-bottom-color: #EDE5D8;
+}
+
+.q-card-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.q-flip-num {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.q-flip-badge {
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 20px;
+  padding: 3px 10px;
+  white-space: nowrap;
+}
+
+.q-flip-question {
+  font-size: 14px;
+  font-weight: 600;
+  color: #3D2912;
+  line-height: 1.5;
+  flex: 1;
+  text-align: right;
+}
+
+.q-card-chevron {
+  flex-shrink: 0;
+  font-size: 12px;
+  color: #B0A090;
+  transition: transform 0.25s;
+}
+
+.q-card.open .q-card-chevron {
+  transform: rotate(180deg);
+}
+
+.q-card-body {
+  padding: 14px 16px;
+  background: #FDFAF6;
+}
+
+/* תיבת תשובה */
+.q-flip-answer-box {
+  background: #F7F2EC;
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+
+.q-answer-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: 13px;
+}
+
+.q-answer-label {
+  color: #9A8472;
+  flex-shrink: 0;
+}
+
+.q-answer-val {
+  flex: 1;
+  line-height: 1.4;
+}
+
 .retry-btn { background: white; border-radius: 16px; width: 100%; padding: 14px 0; font-size: 16px; font-weight: 700; color: #3D2912; font-family: 'Heebo', 'Arial Hebrew', Arial, sans-serif; margin-bottom: 16px; border: 2px solid #E8DDD0; }
 
 /* ── מסך פתיחה ── */
 .welcome-illustration { flex: 1; display: flex; align-items: center; justify-content: center; padding: 5px 30px; }
-.welcome-illustration .buildimage {width: 70vw;}
+.welcome-illustration .buildimage { width: 70vw; }
 .welcome-bottom { padding: 0 32px 36px; text-align: center; }
 .welcome-bottom .welcome-subtitle { font-size: 18px; font-weight: 500; color: #3D2912; margin-bottom: 4px; }
 .welcome-bottom .welcome-title    { font-size: 24px; font-weight: 800; color: #3D2912; margin-bottom: 14px; }
 .welcome-bottom .welcome-desc     { font-size: 13px; color: #7A5C3A; line-height: 1.7; margin-bottom: 28px; }
-.welcome-bottom .start-btn        { background: #C0574A; color: white; border: none; border-radius: 18px; width: 100%; padding: 16px 0; font-size: 17px; font-weight: 700; font-family: 'Heebo', 'Arial Hebrew', Arial, sans-serif;    
-  background: linear-gradient(to bottom, 
-    #D79184 0%, 
-    #D79184 50%, 
-    #C97A6D 50%, 
-    #C97A6D 100%); }
-
-    
+.welcome-bottom .start-btn        {
+  background: linear-gradient(to bottom, #D79184 0%, #D79184 50%, #C97A6D 50%, #C97A6D 100%);
+  color: white; border: none; border-radius: 18px; width: 100%;
+  padding: 16px 0; font-size: 17px; font-weight: 700;
+  font-family: 'Heebo', 'Arial Hebrew', Arial, sans-serif;
+}
