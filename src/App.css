@@ -97,7 +97,7 @@ button { -webkit-appearance: none; touch-action: manipulation; cursor: pointer; 
 /* טקסט מעל ה-SVG */
 .pill-text-overlay {
   position: absolute;
-  bottom: 16px;
+  bottom: 20px;
   left: 0;
   right: 0;
   text-align: center;
@@ -361,6 +361,7 @@ button { -webkit-appearance: none; touch-action: manipulation; cursor: pointer; 
 
 .chapter-nav-sticky .nav-row {
   display: flex;
+  flex-direction: row-reverse; 
   gap: 10px;
   padding: 4px 16px 16px;
 }
