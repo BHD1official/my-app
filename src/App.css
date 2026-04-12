@@ -395,32 +395,40 @@ button { -webkit-appearance: none; touch-action: manipulation; cursor: pointer; 
 .chapter-nav-sticky {
   flex-shrink: 0;
   border-radius: 26px 26px 0 0;
-  padding-bottom: calc(16px + env(safe-area-inset-bottom));
+  padding-bottom: calc(6px + env(safe-area-inset-bottom)); /* ⬅️ היה 16 */
 }
 
 .chapter-nav-sticky .home-row {
   display: flex;
   justify-content: center;
-  padding: 12px 0 6px;
-}
-
-.chapter-nav-sticky .home-circle-btn {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: white;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 6px 0 2px; /* ⬅️ היה 12px 0 6px */
 }
 
 .chapter-nav-sticky .nav-row {
   display: flex;
-  flex-direction: row-reverse; 
-  gap: 10px;
-  padding: 4px 16px 16px;
+  flex-direction: row-reverse;
+  gap: 8px; /* קצת פחות */
+  padding: 2px 12px 8px; /* ⬅️ היה 4px 16px 16px */
 }
+.chapter-nav-sticky .home-circle-btn {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%); /* מרכז + הרמה למעלה */
+
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: white;
+  border: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
 
 .nav-btn {
   flex: 1;
