@@ -1271,27 +1271,23 @@ function ChapterScreen({chapter, allChapters, onChapter, onHome}) {
         ))}
       </div>
       {/* ── ניווט תחתון מוקטן ── */}
-      <div className="chapter-nav-sticky" style={{background:chapter.accentColor}}>
-        <div className="home-row">
-          <button className="home-circle-btn" onClick={onHome} style={{color:chapter.accentColor}}><IHome/></button>
-        </div>
-        <div className="nav-row">
-          {/* הפרק הבא — שמאל */}
-          <button className="nav-btn"
-            onClick={()=>nextCh&&onChapter(nextCh)} disabled={!nextCh}
-            style={{background:nextCh?"white":"rgba(255,255,255,0.35)",color:chapter.accentColor,
-              cursor:nextCh?"pointer":"default",opacity:nextCh?1:0.45,fontSize:13,padding:"9px 0"}}>
-           הפרק הבא <IArrL/> 
-          </button>
-          {/* הפרק הקודם — ימין */}
-          <button className="nav-btn"
-            onClick={()=>prevCh&&onChapter(prevCh)} disabled={!prevCh}
-            style={{background:"rgba(255,255,255,0.25)",color:"white",
-              cursor:prevCh?"pointer":"default",opacity:prevCh?1:0.45,fontSize:13,padding:"9px 0"}}>
-           <IArrR/> הפרק הקודם 
-          </button>
-        </div>
-      </div>
+  <div className="chapter-nav-sticky" style={{background: chapter.accentColor}}>
+  <button className="home-circle-btn" onClick={onHome} style={{color: chapter.accentColor}}>
+    <IHome size={26}/>
+  </button>
+
+  <div className="nav-row">
+    {/* כפתור שמאל */}
+    <button className="nav-btn" onClick={() => nextCh && onChapter(nextCh)} disabled={!nextCh}>
+       <IArrL/> לנושא הבא
+    </button>
+
+    {/* כפתור ימין */}
+    <button className="nav-btn" onClick={() => prevCh && onChapter(prevCh)} disabled={!prevCh}>
+      לנושא הקודם <IArrR/>
+    </button>
+  </div>
+</div>
     </Shell>
   );
 }
@@ -1379,7 +1375,7 @@ function QuizInstructionsScreen({onStart, onHome}) {
             <strong>במהלך המבחן לא ניתן לחזור לנושאים</strong><br/><br/>
             שימו לב, בסיום המבחן תקבלו ציון,<br/>
             צלמו מסך טרם יציאה מהמבחן לשמירת הציון<br/><br/>
-            <strong>!בהצלחה</strong>
+            <strong>בהצלחה!</strong>
           </div>
         </div>
       
@@ -1554,7 +1550,7 @@ function ResultsScreen({questions, answers, onHome, onRetry}) {
           <div className="result-title">{level.title}</div>
           <div className="result-sub">{level.sub}</div>
         </div>
-        <div className="review-section-title" style={{color:level.bg}}>לחץ על שאלה לפרטים ולהסבר</div>
+        <div className="review-section-title" style={{color:level.bg}}>לחץ על השאלה לפרטים ולהסבר</div>
         <div className="q-cards-list">
           {questions.map((q,i)=>(
             <QuestionCard key={q.id} q={q} i={i} userAnswer={answers[q.id]} accentColor={level.bg}/>

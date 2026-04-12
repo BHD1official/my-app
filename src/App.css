@@ -126,11 +126,67 @@ button { -webkit-appearance: none; touch-action: manipulation; cursor: pointer; 
 .quiz-header .pencil-circle    { width: 56px; height: 56px; border-radius: 50%; background: #C49A3C; color: white; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; }
 .quiz-header .quiz-header-title{ font-size: 28px; font-weight: 800; }
 .back-btn { background: none; border: none; color: white; font-size: 20px; padding: 14px 20px 0; display: block; }
+.chapter-nav-sticky {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 85px; /* גובה הבר */
+  border-radius: 35px 35px 0 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  padding: 0 25px;
+  /* מוודא שהתוכן לא יברח למטה באייפונים חדשים */
+  padding-bottom: env(safe-area-inset-bottom); 
+}
 
-/* ── בר תחתון ── */
-.home-bar { border-radius: 26px 26px 0 0; padding: 12px 0; padding-bottom: calc(16px + env(safe-area-inset-bottom)); display: flex; justify-content: center; flex-shrink: 0; margin-top: auto; }
-.home-bar .home-btn { width: 52px; height: 52px; border-radius: 50%; background: white; border: none; display: flex; align-items: center; justify-content: center; }
+/* כפתור הבית - תמיד במרכז למעלה */
+.home-circle-btn {
+  position: absolute;
+  top: -30px; 
+  left: 50%;
+  transform: translateX(-50%);
+  width: 65px;
+  height: 65px;
+  background: white;
+  border-radius: 50%;
+  /* שנה את הצבע הזה לצבע הרקע של הדף שלך */
+  border: 6px solid #f9f4ee; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1010;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
 
+/* קונטיינר הכפתורים */
+.nav-row {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* עיצוב כפתורי הצד - שקופים עם מסגרת */
+.nav-btn {
+  background: transparent !important; /* מבטל את הלבן המלא */
+  border: 1px solid rgba(255, 255, 255, 0.5) !important; /* מסגרת דקה */
+  color: white !important;
+  border-radius: 12px;
+  padding: 8px 12px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 110px;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.nav-btn:disabled {
+  opacity: 0.3;
+}
 /* ── שדה חיפוש ── */
 .search-bar { background: white; border-radius: 16px; padding: 10px 16px; display: flex; align-items: center; gap: 10px; margin: 14px 18px 4px; box-shadow: 0 1px 8px rgba(0,0,0,0.07); }
 .search-bar input { border: none; outline: none; flex: 1; font-size: 16px; font-family: 'Heebo', 'Arial Hebrew', Arial, sans-serif; direction: rtl; background: transparent; color: #3D2912; }
