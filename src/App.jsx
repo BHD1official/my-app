@@ -1642,4 +1642,5 @@ export default function App() {
       {screen === "results"&&quizResult && <ResultsScreen questions={quizResult.questions} answers={quizResult.answers} onHome={goHome} onRetry={()=>setScreen("quizSelect")}/>}
     </>
   );
+
 }

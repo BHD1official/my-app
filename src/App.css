@@ -422,6 +422,8 @@ button { -webkit-appearance: none; touch-action: manipulation; cursor: pointer; 
 
   /* אפקט "מרחף" כמו בעיצוב */
   transform: translateY(-10px);
+  transform: translateX(-30px);
+  left:50%;
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
