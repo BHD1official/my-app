@@ -408,7 +408,7 @@ button { -webkit-appearance: none; touch-action: manipulation; cursor: pointer; 
   display: flex;
   flex-direction: row-reverse;
   gap: 8px; /* קצת פחות */
-  padding: 2px 12px 8px; /* ⬅️ היה 4px 16px 16px */
+  padding: 20px 12px 8px; /* ⬅️ היה 4px 16px 16px */
 }
 .chapter-nav-sticky .home-circle-btn {
   width: 64px;   /* ⬆️ היה 50 */
