@@ -1091,6 +1091,35 @@ function getQuizQuestions(selectedChapterIds) {
   return shuffled.slice(0, 10);
 }
 
+
+
+// ══════════════════════════════════════════
+// הוספה 1: פונקציית האנימציה (מחוץ לקומפוננטה)
+// ══════════════════════════════════════════
+const spawnCircles = () => {
+  const overlay = document.getElementById('transition-overlay');
+  if (!overlay) return;
+  for (let i = 0; i < 14; i++) {
+    setTimeout(() => {
+      const c = document.createElement('div');
+      c.className = 'floating-circle';
+      const size  = 40 + Math.random() * 100;
+      const left  = Math.random() * 100;
+      const delay = Math.random() * 0.4;
+      const alpha = 0.1 + Math.random() * 0.18;
+      c.style.cssText = `
+        width: ${size}px; height: ${size}px;
+        left: ${left}%; top: -${size}px;
+        animation-delay: ${delay}s;
+        animation-duration: ${1.2 + Math.random() * 0.6}s;
+        background: rgba(212, 168, 67, ${alpha});
+      `;
+      overlay.appendChild(c);
+      setTimeout(() => c.remove(), 2200);
+    }, i * 60);
+  }
+};
+
 const IHome   = () => <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>;
 const IBook   = () => <svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>;
 const IArrL   = () => <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>;
@@ -1123,6 +1152,7 @@ function PillHeader({title, subtitle, accentColor}) {
     </div>
   );
 }
+
 
 function HomeBar({onHome, bg}) {
   return (
@@ -1245,7 +1275,6 @@ function TopicsScreen({onChapter, onQuiz, onHome}) {
           <div className="quiz-btn-arrow"><IArrL/></div>
         </button>
       </div>
-      <HomeBar onHome={onHome} bg="#C49A3C"/>
     </Shell>
   );
 }
@@ -1279,12 +1308,12 @@ function ChapterScreen({chapter, allChapters, onChapter, onHome}) {
   <div className="nav-row">
     {/* כפתור שמאל */}
     <button className="nav-btn" onClick={() => nextCh && onChapter(nextCh)} disabled={!nextCh}>
-       <IArrL/> לנושא הבא
+        לנושא הבא<IArrL/>
     </button>
 
     {/* כפתור ימין */}
     <button className="nav-btn" onClick={() => prevCh && onChapter(prevCh)} disabled={!prevCh}>
-      לנושא הקודם <IArrR/>
+     <IArrR/> לנושא הקודם 
     </button>
   </div>
 </div>
@@ -1570,20 +1599,47 @@ export default function App() {
   const [quizQs,     setQuizQs]     = useState([]);
   const [quizResult, setQuizResult] = useState(null);
   const goHome = () => setScreen("topics");
-
+  // ══════════════════════════════════════════
+  // הוספה 2: startQuiz עם אנימציה
+  // ══════════════════════════════════════════
   const startQuiz = (ids) => {
-    setSelChapters(ids);
-    const qs = getQuizQuestions(ids);
-    setQuizQs(qs);
-    setScreen("quizInstructions");
+    const overlay = document.getElementById('transition-overlay');
+    if (!overlay) {
+      const qs = getQuizQuestions(ids);
+      setSelChapters(ids);
+      setQuizQs(qs);
+      setScreen("quizInstructions");
+      return;
+    }
+    overlay.classList.add('active');
+    spawnCircles();
+    setTimeout(() => {
+      const qs = getQuizQuestions(ids);
+      setSelChapters(ids);
+      setQuizQs(qs);
+      setScreen("quizInstructions");
+      overlay.style.opacity = '0';
+      overlay.style.transition = 'opacity 0.4s ease';
+    }, 900);
+    setTimeout(() => {
+      overlay.classList.remove('active');
+      overlay.style.opacity = '';
+      overlay.style.transition = '';
+    }, 1400);
   };
 
-  if (screen==="welcome")          return <WelcomeScreen onStart={()=>setScreen("topics")}/>;
-  if (screen==="topics")           return <TopicsScreen onChapter={ch=>{setChapter(ch);setScreen("chapter");}} onQuiz={()=>setScreen("quizSelect")} onHome={goHome}/>;
-  if (screen==="chapter"&&chapter) return <ChapterScreen chapter={chapter} allChapters={CHAPTERS} onChapter={setChapter} onHome={goHome}/>;
-  if (screen==="quizSelect")       return <QuizSelectScreen onStart={startQuiz} onHome={goHome}/>;
-  if (screen==="quizInstructions") return <QuizInstructionsScreen onStart={()=>setScreen("quiz")} onHome={()=>setScreen("quizSelect")}/>;
-  if (screen==="quiz")             return <QuizQuestionScreen questions={quizQs} onFinish={(qs,ans)=>{setQuizResult({questions:qs,answers:ans});setScreen("results");}} onHome={goHome}/>;
-  if (screen==="results"&&quizResult) return <ResultsScreen questions={quizResult.questions} answers={quizResult.answers} onHome={goHome} onRetry={()=>setScreen("quizSelect")}/>;
-  return null;
+  return (
+    <>
+      {/* הוספה 3: אלמנט ה-overlay */}
+      <div id="transition-overlay" />
+
+      {screen === "welcome"          && <WelcomeScreen onStart={()=>setScreen("topics")}/>}
+      {screen === "topics"           && <TopicsScreen onChapter={ch=>{setChapter(ch);setScreen("chapter");}} onQuiz={()=>setScreen("quizSelect")} onHome={goHome}/>}
+      {screen === "chapter"&&chapter  && <ChapterScreen chapter={chapter} allChapters={CHAPTERS} onChapter={setChapter} onHome={goHome}/>}
+      {screen === "quizSelect"       && <QuizSelectScreen onStart={startQuiz} onHome={goHome}/>}
+      {screen === "quizInstructions" && <QuizInstructionsScreen onStart={()=>setScreen("quiz")} onHome={()=>setScreen("quizSelect")}/>}
+      {screen === "quiz"             && <QuizQuestionScreen questions={quizQs} onFinish={(qs,ans)=>{setQuizResult({questions:qs,answers:ans});setScreen("results");}} onHome={goHome}/>}
+      {screen === "results"&&quizResult && <ResultsScreen questions={quizResult.questions} answers={quizResult.answers} onHome={goHome} onRetry={()=>setScreen("quizSelect")}/>}
+    </>
+  );
 }

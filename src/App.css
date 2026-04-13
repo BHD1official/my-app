@@ -411,21 +411,17 @@ button { -webkit-appearance: none; touch-action: manipulation; cursor: pointer; 
   padding: 2px 12px 8px; /* ⬅️ היה 4px 16px 16px */
 }
 .chapter-nav-sticky .home-circle-btn {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translate(-50%, -50%); /* מרכז + הרמה למעלה */
-
-  width: 64px;
-  height: 64px;
+  width: 64px;   /* ⬆️ היה 50 */
+  height: 64px;  /* ⬆️ היה 50 */
   border-radius: 50%;
   background: white;
   border: none;
-
   display: flex;
   align-items: center;
   justify-content: center;
 
+  /* אפקט "מרחף" כמו בעיצוב */
+  transform: translateY(-10px);
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
@@ -634,4 +630,40 @@ button { -webkit-appearance: none; touch-action: manipulation; cursor: pointer; 
   color: white; border: none; border-radius: 18px; width: 100%;
   padding: 16px 0; font-size: 17px; font-weight: 700;
   font-family: 'Heebo', 'Arial Hebrew', Arial, sans-serif;
+}
+
+/* ============================================================
+   TRANSITION ANIMATION — overlay + floating circles
+   ============================================================ */
+#transition-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+#transition-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+  animation: overlayFade 1.2s ease forwards;
+}
+
+@keyframes overlayFade {
+  0%   { background: #e8b4a8; }
+  100% { background: #5c2d2d; }
+}
+
+.floating-circle {
+  position: absolute;
+  border-radius: 50%;
+  animation: floatDown 1.4s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes floatDown {
+  0%   { transform: translateY(-120px) scale(0.3); opacity: 0; }
+  30%  { opacity: 1; }
+  100% { transform: translateY(100vh) scale(1.2); opacity: 0; }
 }
