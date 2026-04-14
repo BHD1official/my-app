@@ -1593,15 +1593,28 @@ function ResultsScreen({questions, answers, onHome, onRetry}) {
 }
 
 export default function App() {
-  const [screen,     setScreen]     = useState("welcome");
-  const [chapter,    setChapter]    = useState(null);
-  const [selChapters,setSelChapters]= useState([]);
-  const [quizQs,     setQuizQs]     = useState([]);
+  const [screen, setScreen] = useState("welcome");
+  const [chapter, setChapter] = useState(null);
+  const [selChapters, setSelChapters] = useState([]);
+  const [quizQs, setQuizQs] = useState([]);
   const [quizResult, setQuizResult] = useState(null);
+
+  // הוספה: State לניהול הפופ-אפ
+  const [showExitPopup, setShowExitPopup] = useState(false);
+
   const goHome = () => setScreen("topics");
-  // ══════════════════════════════════════════
-  // הוספה 2: startQuiz עם אנימציה
-  // ══════════════════════════════════════════
+
+  // פונקציה שנקראת כשלוחצים על ה-X (מעבירים אותה כ-Prop)
+  const handleAttemptExit = () => {
+    setShowExitPopup(true);
+  };
+
+  // פונקציה שמבצעת את היציאה בפועל
+  const confirmExit = () => {
+    setShowExitPopup(false);
+    goHome(); // משתמש בפונקציה goHome הקיימת אצלך כדי לחזור למסך הראשי
+  };
+
   const startQuiz = (ids) => {
     const overlay = document.getElementById('transition-overlay');
     if (!overlay) {
@@ -1612,7 +1625,7 @@ export default function App() {
       return;
     }
     overlay.classList.add('active');
-    spawnCircles();
+    // spawnCircles(); // ודאי שהפונקציה הזו מוגדרת אצלך
     setTimeout(() => {
       const qs = getQuizQuestions(ids);
       setSelChapters(ids);
@@ -1630,17 +1643,55 @@ export default function App() {
 
   return (
     <>
-      {/* הוספה 3: אלמנט ה-overlay */}
       <div id="transition-overlay" />
 
-      {screen === "welcome"          && <WelcomeScreen onStart={()=>setScreen("topics")}/>}
-      {screen === "topics"           && <TopicsScreen onChapter={ch=>{setChapter(ch);setScreen("chapter");}} onQuiz={()=>setScreen("quizSelect")} onHome={goHome}/>}
-      {screen === "chapter"&&chapter  && <ChapterScreen chapter={chapter} allChapters={CHAPTERS} onChapter={setChapter} onHome={goHome}/>}
-      {screen === "quizSelect"       && <QuizSelectScreen onStart={startQuiz} onHome={goHome}/>}
-      {screen === "quizInstructions" && <QuizInstructionsScreen onStart={()=>setScreen("quiz")} onHome={()=>setScreen("quizSelect")}/>}
-      {screen === "quiz"             && <QuizQuestionScreen questions={quizQs} onFinish={(qs,ans)=>{setQuizResult({questions:qs,answers:ans});setScreen("results");}} onHome={goHome}/>}
-      {screen === "results"&&quizResult && <ResultsScreen questions={quizResult.questions} answers={quizResult.answers} onHome={goHome} onRetry={()=>setScreen("quizSelect")}/>}
+      {/* לוגיקת הפופ-אפ - חייבת להיות בתוך ה-return */}
+      {showExitPopup && (
+        <div className="popup-overlay">
+          <div className="popup-content">
+            <h3>שים לב!</h3>
+            <p>ברגע היציאה המבחן לא ישמר. האם לצאת בכל זאת?</p>
+            <div className="popup-buttons">
+              <button className="confirm-btn" onClick={confirmExit}>צא מהמבחן</button>
+              <button className="cancel-btn" onClick={() => setShowExitPopup(false)}>ביטול</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {screen === "welcome" && <WelcomeScreen onStart={() => setScreen("topics")} />}
+      {screen === "topics" && (
+        <TopicsScreen 
+          onChapter={ch => { setChapter(ch); setScreen("chapter"); }} 
+          onQuiz={() => setScreen("quizSelect")} 
+          onHome={goHome} 
+        />
+      )}
+      {screen === "chapter" && chapter && (
+        <ChapterScreen chapter={chapter} allChapters={CHAPTERS} onChapter={setChapter} onHome={goHome} />
+      )}
+      {screen === "quizSelect" && <QuizSelectScreen onStart={startQuiz} onHome={goHome} />}
+      {screen === "quizInstructions" && (
+        <QuizInstructionsScreen onStart={() => setScreen("quiz")} onHome={() => setScreen("quizSelect")} />
+      )}
+      
+      {/* כאן העדכון החשוב: בשני המסכים שבהם יש מבחן, נשלח את handleAttemptExit */}
+      {screen === "quiz" && (
+        <QuizQuestionScreen 
+          questions={quizQs} 
+          onFinish={(qs, ans) => { setQuizResult({ questions: qs, answers: ans }); setScreen("results"); }} 
+          onHome={handleAttemptExit} // משנים מ-goHome לפונקציה שפותחת פופ-אפ
+        />
+      )}
+      
+      {screen === "results" && quizResult && (
+        <ResultsScreen 
+          questions={quizResult.questions} 
+          answers={quizResult.answers} 
+          onHome={goHome} 
+          onRetry={() => setScreen("quizSelect")} 
+        />
+      )}
     </>
   );
-
 }

@@ -131,17 +131,16 @@ button { -webkit-appearance: none; touch-action: manipulation; cursor: pointer; 
   bottom: 0;
   left: 0;
   right: 0;
-  height: 85px; /* גובה הבר */
+  height: 85px;
   border-radius: 35px 35px 0 0;
   z-index: 1000;
   display: flex;
   align-items: center;
   padding: 0 25px;
-  /* מוודא שהתוכן לא יברח למטה באייפונים חדשים */
   padding-bottom: env(safe-area-inset-bottom); 
 }
 
-/* כפתור הבית - תמיד במרכז למעלה */
+/* כפתור הבית */
 .home-circle-btn {
   position: absolute;
   top: -30px; 
@@ -151,7 +150,6 @@ button { -webkit-appearance: none; touch-action: manipulation; cursor: pointer; 
   height: 65px;
   background: white;
   border-radius: 50%;
-  /* שנה את הצבע הזה לצבע הרקע של הדף שלך */
   border: 6px solid #f9f4ee; 
   display: flex;
   align-items: center;
@@ -168,10 +166,10 @@ button { -webkit-appearance: none; touch-action: manipulation; cursor: pointer; 
   align-items: center;
 }
 
-/* עיצוב כפתורי הצד - שקופים עם מסגרת */
+/* עיצוב כפתורי הצד */
 .nav-btn {
-  background: transparent !important; /* מבטל את הלבן המלא */
-  border: 1px solid rgba(255, 255, 255, 0.5) !important; /* מסגרת דקה */
+  background: transparent !important;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
   color: white !important;
   border-radius: 12px;
   padding: 8px 12px;
@@ -187,6 +185,7 @@ button { -webkit-appearance: none; touch-action: manipulation; cursor: pointer; 
 .nav-btn:disabled {
   opacity: 0.3;
 }
+
 /* ── שדה חיפוש ── */
 .search-bar { background: white; border-radius: 16px; padding: 10px 16px; display: flex; align-items: center; gap: 10px; margin: 14px 18px 4px; box-shadow: 0 1px 8px rgba(0,0,0,0.07); }
 .search-bar input { border: none; outline: none; flex: 1; font-size: 16px; font-family: 'Heebo', 'Arial Hebrew', Arial, sans-serif; direction: rtl; background: transparent; color: #3D2912; }
@@ -218,7 +217,6 @@ button { -webkit-appearance: none; touch-action: manipulation; cursor: pointer; 
   overflow: hidden;
 }
 
-/* shared row / badge / icon styles */
 .topic-row {
   display: flex;
   align-items: center;
@@ -391,42 +389,39 @@ button { -webkit-appearance: none; touch-action: manipulation; cursor: pointer; 
   -webkit-overflow-scrolling: touch;
 }
 
-/* ── ניווט תחתון — נשאר למטה כי shell=100dvh ── */
+/* ── ניווט תחתון ── */
 .chapter-nav-sticky {
   flex-shrink: 0;
   border-radius: 26px 26px 0 0;
-  padding-bottom: calc(6px + env(safe-area-inset-bottom)); /* ⬅️ היה 16 */
+  padding-bottom: calc(1px + env(safe-area-inset-bottom));
 }
 
 .chapter-nav-sticky .home-row {
   display: flex;
   justify-content: center;
-  padding: 6px 0 2px; /* ⬅️ היה 12px 0 6px */
+  padding: 6px 0 2px;
 }
 
 .chapter-nav-sticky .nav-row {
   display: flex;
   flex-direction: row-reverse;
-  gap: 8px; /* קצת פחות */
-  padding: 20px 12px 8px; /* ⬅️ היה 4px 16px 16px */
+  gap: 8px;
+  padding: 20px 12px 1px;
 }
 .chapter-nav-sticky .home-circle-btn {
-  width: 64px;   /* ⬆️ היה 50 */
-  height: 64px;  /* ⬆️ היה 50 */
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
   background: white;
   border: none;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  /* אפקט "מרחף" כמו בעיצוב */
   transform: translateY(-10px);
   transform: translateX(-30px);
   left:50%;
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
-
 
 .nav-btn {
   flex: 1;
@@ -497,13 +492,18 @@ button { -webkit-appearance: none; touch-action: manipulation; cursor: pointer; 
   margin-bottom: 16px;
 }
 
+/* ═══════════════════════════════════════
+   SECTION BACK ROW + BACK BUTTON (FIXED)
+   ═══════════════════════════════════════ */
 .section-back-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
+  margin-bottom: 4px;
 }
 
+/* ── כפתור חזרה — עם רקע בולט ── */
 .section-back-btn {
   background: none;
   border: none;
@@ -511,11 +511,19 @@ button { -webkit-appearance: none; touch-action: manipulation; cursor: pointer; 
   align-items: center;
   gap: 4px;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   font-family: 'Heebo', 'Arial Hebrew', Arial, sans-serif;
   cursor: pointer;
-  padding: 0;
+  padding: 6px 12px 6px 8px;
   flex-shrink: 0;
+  border-radius: 20px;
+  /* ── רקע בולט ── */
+  background: rgba(0, 0, 0, 0.08);
+  transition: background 0.15s;
+}
+
+.section-back-btn:active {
+  background: rgba(0, 0, 0, 0.16);
 }
 
 .section-back-title {
@@ -634,6 +642,35 @@ button { -webkit-appearance: none; touch-action: manipulation; cursor: pointer; 
   font-family: 'Heebo', 'Arial Hebrew', Arial, sans-serif;
 }
 
+/* ═══════════════════════════════════════════
+   NUMBERED LIST ITEMS — RTL fixed layout
+   ═══════════════════════════════════════════ */
+.content-list-item {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 6px;
+  direction: rtl;
+  text-align: right;
+  align-items: flex-start;
+  padding-right: 4px;
+  border-right: 3px solid #E8DDD0;
+}
+
+.content-list-marker {
+  flex-shrink: 0;
+  font-weight: 700;
+  color: #6B4F2E;
+  min-width: 28px;
+  text-align: right;
+  line-height: 1.8;
+}
+
+.content-list-text {
+  flex: 1;
+  line-height: 1.8;
+  word-break: break-word;
+}
+
 /* ============================================================
    TRANSITION ANIMATION — overlay + floating circles
    ============================================================ */
@@ -668,4 +705,64 @@ button { -webkit-appearance: none; touch-action: manipulation; cursor: pointer; 
   0%   { transform: translateY(-120px) scale(0.3); opacity: 0; }
   30%  { opacity: 1; }
   100% { transform: translateY(100vh) scale(1.2); opacity: 0; }
+}
+/* רקע כהה שחוסם את המסך */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* קופסת הפופ-אפ */
+.popup-content {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 15px;
+  text-align: center;
+  direction: rtl; /* עברית */
+  font-family: "PloniBold", sans-serif;
+  max-width: 80%;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.popup-content p {
+  font-family: "PloniRegular", sans-serif;
+  margin: 20px 0;
+}
+
+/* כפתורים */
+.popup-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.popup-buttons button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: "PloniRegular", sans-serif;
+  font-size: 1rem;
+}
+
+.confirm-btn {
+  background-color: #ff4d4d; /* אדום ליציאה */
+  color: white;
+}
+
+.cancel-btn {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.confirm-btn:hover, .cancel-btn:hover {
+  filter: brightness(0.9);
 }
