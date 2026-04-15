@@ -312,7 +312,7 @@ const CHAPTERS = [
       {
         "id": "2.1",
         "title": "פיתוח הכשרה חדשה",
-        "description": "להגדיר את תהליך פיתוח הכשרה חדשה ביחידת הדרכה.",
+        "description": "להגדיר את תהליך פיתוח הכשרה חדשה   ביחידת הדרכה.",
         "sections": [
           {
             "title": "כללי",
@@ -919,6 +919,9 @@ const CHAPTERS = [
     ]
   }
 ];
+
+
+
 
 // ── 150 שאלות מחולקות לפרקים ──
 const QUIZ_QUESTIONS_BANK = [
@@ -1591,6 +1594,29 @@ function ResultsScreen({questions, answers, onHome, onRetry}) {
     </Shell>
   );
 }
+const fixHebrewList = (text) => {
+  return text
+    .replace(/(^|\n)([^\n]+?)\s+([א-ת]\.)/g, (match, br, content, letter) => {
+      return `${br}${letter} ${content}`;
+    })
+    .replace(/\)(\d+)/g, (_, num) => `${num})`)
+    .replace(/([א-ת]\.)(\S)/g, "$1 $2")
+    .replace(/(\d+\))(\S)/g, "$1 $2");
+};
+
+const fixChapter = (chapter) => {
+  return {
+    ...chapter,
+    topics: chapter.topics.map(topic => ({
+      ...topic,
+      sections: topic.sections.map(section => ({
+        ...section,
+        content: fixHebrewList(section.content)
+      }))
+    }))
+  };
+};
+
 
 export default function App() {
   const [screen, setScreen] = useState("welcome");
@@ -1642,6 +1668,7 @@ export default function App() {
   };
 
   return (
+    
     <>
       <div id="transition-overlay" />
 
@@ -1662,8 +1689,10 @@ export default function App() {
       {screen === "welcome" && <WelcomeScreen onStart={() => setScreen("topics")} />}
       {screen === "topics" && (
         <TopicsScreen 
-          onChapter={ch => { setChapter(ch); setScreen("chapter"); }} 
-          onQuiz={() => setScreen("quizSelect")} 
+onChapter={ch => {
+  setChapter(fixChapter(ch));
+  setScreen("chapter");
+}}          onQuiz={() => setScreen("quizSelect")} 
           onHome={goHome} 
         />
       )}
