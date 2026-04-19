@@ -766,3 +766,34 @@ button { -webkit-appearance: none; touch-action: manipulation; cursor: pointer; 
 .confirm-btn:hover, .cancel-btn:hover {
   filter: brightness(0.9);
 }
+.chapter-icon img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  display: block;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  direction: rtl;
+}
+
+.table th,
+.table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+}
+
+.table th {
+  background: #C49A3C;
+  color: white;
+}
+/* ── גלילה לטבלאות ── */
+.topic-content {
+  overflow-x: auto;
+}
+
+.table {
+  min-width: 500px;
+}
