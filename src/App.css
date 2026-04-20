@@ -797,3 +797,9 @@ button { -webkit-appearance: none; touch-action: manipulation; cursor: pointer; 
 .table {
   min-width: 500px;
 }
+
+.arrow-row {
+  text-align: center;
+  font-size: 20px;
+  padding: 10px 0;
+}
