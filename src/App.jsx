@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import "./App.css";
 import buildingimage from "./assets/buildlogo.png";
-import gapalogo from "./assets/gapalogo.svg";
+import gapalogo from "./assets/gapalogo.png";
 import bhdlogo from "./assets/bhd-logo.png";
 
 const APP_CONFIG = {
