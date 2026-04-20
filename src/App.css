@@ -54,7 +54,7 @@ button { -webkit-appearance: none; touch-action: manipulation; cursor: pointer; 
   z-index: 2;
 }
 .top-logos .gapa-logo { display: flex; align-items: center; justify-content: center; }
-.top-logos .gapa-logo-img { width: 40px; height: auto; }
+.top-logos .gapa-logo-img { width: 40px; height: 40px; }
 .top-logos .logo-badge { display: flex; align-items: center; justify-content: center; }
 
 /* ── כותרת עם path — ללא רקע בין לוגו לכותרת ── */
