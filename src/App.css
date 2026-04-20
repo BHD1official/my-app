@@ -805,3 +805,25 @@ button { -webkit-appearance: none; touch-action: manipulation; cursor: pointer; 
   font-size: 20px;
   padding: 10px 0;
 }
+
+.home-bar {
+  flex-shrink: 0;
+  border-radius: 35px 35px 0 0;
+  height: 85px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.home-btn {
+  width: 56px;
+  height: 56px;
+  background: white;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
