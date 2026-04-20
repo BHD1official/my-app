@@ -785,10 +785,12 @@ button { -webkit-appearance: none; touch-action: manipulation; cursor: pointer; 
   padding: 8px;
 }
 
+
 .table th {
-  background: #C49A3C;
+  background: var(--accent-color, #C49A3C);
   color: white;
 }
+
 /* ── גלילה לטבלאות ── */
 .topic-content {
   overflow-x: auto;

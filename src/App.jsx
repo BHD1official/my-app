@@ -2111,8 +2111,7 @@ function TopicCard({topic, accent, bg, isOpen, onToggle}) {
       return <div key={i} className={isItem ? "content-item" : "content-line"}>{t}</div>;
     });
   return (
-    <div className="topic-card" style={{background: bg}}>
-      <div className="topic-row">
+<div className="topic-card" style={{background: bg, '--accent-color': accent}}>      <div className="topic-row">
         <div className="topic-book-icon" style={{background: accent}}><IBook/></div>
         <div className="topic-text">
           <div className="topic-title">{topic.title}</div>
