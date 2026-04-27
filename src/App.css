@@ -191,21 +191,275 @@ button { -webkit-appearance: none; touch-action: manipulation; cursor: pointer; 
 .search-bar input { border: none; outline: none; flex: 1; font-size: 16px; font-family: 'Heebo', 'Arial Hebrew', Arial, sans-serif; direction: rtl; background: transparent; color: #3D2912; }
 
 /* ── רשימת פרקים ── */
-.chapters-list { padding: 8px 18px; flex: 1; overflow-y: auto; }
-.chapter-btn { border: none; border-radius: 16px; width: 100%; padding: 13px 14px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; font-family: 'Heebo', 'Arial Hebrew', Arial, sans-serif; text-align: right; }
-.chapter-btn .chapter-icon   { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
-.chapter-btn .chapter-info   { flex: 1; }
-.chapter-btn .chapter-number { font-size: 12px; font-weight: 700; }
-.chapter-btn .chapter-title  { font-size: 16px; font-weight: 700; color: #3D2912; }
-.chapter-btn .chapter-arrow  { width: 34px; height: 34px; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+/* ───────── רשימת פרקים רספונסיבית ───────── */
 
-/* כפתור מבחן */
-.quiz-btn { background: #4A3020; border: none; border-radius: 16px; width: 100%; padding: 13px 14px; display: flex; align-items: center; gap: 12px; font-family: 'Heebo', 'Arial Hebrew', Arial, sans-serif; text-align: right; margin-bottom: 16px; }
-.quiz-btn .quiz-btn-icon  { width: 40px; height: 40px; border-radius: 12px; background: #C49A3C; color: white; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.quiz-btn .quiz-btn-title { font-size: 16px; font-weight: 700; color: white; }
-.quiz-btn .quiz-btn-sub   { font-size: 12px; color: #C9AD8A; }
-.quiz-btn .quiz-btn-arrow { width: 34px; height: 34px; border-radius: 50%; background: #2E1A0A; color: white; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.chapters-list {
+  padding: clamp(10px, 2vw, 18px);
+  flex: 1;
+  overflow-y: auto;
+}
 
+.chapter-btn {
+  width: 100%;
+  border: none;
+  border-radius: clamp(16px, 2vw, 24px);
+  margin-bottom: clamp(10px, 1.5vw, 14px);
+  background: #fff;
+  display: flex;
+
+  /* אייקון בימין + חץ בשמאל */
+  flex-direction: row-reverse;
+
+  align-items: stretch;
+  overflow: hidden;
+  padding: 0;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+  font-family: 'Heebo', sans-serif;
+  text-align: right;
+  min-height: clamp(76px, 10vw, 110px);
+}
+
+/* ───── צד ימין - אזור אייקון ───── */
+
+.chapter-icon-side {
+  width: clamp(72px, 12vw, 120px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.chapter-icon {
+  width: clamp(40px, 6vw, 58px);
+  height: clamp(40px, 6vw, 58px);
+
+  /* בלי רקע */
+  background: transparent;
+
+  border-radius: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ───── מרכז - טקסט ───── */
+
+.chapter-info {
+  flex: 1;
+  padding: clamp(10px, 2vw, 18px)
+           clamp(6px, 1vw, 10px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.chapter-number {
+  font-size: clamp(11px, 1.3vw, 14px);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.chapter-title {
+  font-size: clamp(18px, 2.2vw, 30px);
+  font-weight: 800;
+  color: #2F1E0F;
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+
+.chapter-subtitle {
+  font-size: clamp(11px, 1.2vw, 14px);
+  color: #B29A7E;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ───── צד שמאל - חץ ───── */
+
+.chapter-arrow {
+  width: clamp(34px, 5vw, 52px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #C8B89A;
+  font-size: clamp(13px, 1.5vw, 18px);
+  flex-shrink: 0;
+}
+
+/* ───────── מסכים קטנים מאוד ───────── */
+
+@media (max-width: 480px) {
+  .chapter-subtitle {
+    display: none;
+  }
+
+  .chapter-title {
+    font-size: 18px;
+  }
+
+  .chapter-number {
+    font-size: 11px;
+  }
+
+  .chapter-btn {
+    min-height: 72px;
+  }
+}
+
+.chapter-btn {
+  width: 100%;
+  border: none;
+  border-radius: clamp(16px, 2vw, 24px);
+  margin-bottom: clamp(10px, 1.5vw, 14px);
+  background: #fff;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: stretch;
+  overflow: hidden;
+  padding: 0;
+  position: relative; /* חובה בשביל ה־after */
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+  font-family: 'Heebo', sans-serif;
+  text-align: right;
+  min-height: clamp(76px, 10vw, 110px);
+}
+
+/* הפס הצבעוני */
+
+.chapter-btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0; /* בגלל RTL */
+  width: 6px;
+  height: 100%;
+  border-radius: 0 24px 24px 0;
+  background: var(--accent-color);
+}
+
+
+
+/* ───────── כפתור מבחן - אייקון משמאל וחץ מימין ───────── */
+
+.quiz-btn {
+  width: 100%;
+  border: none;
+  border-radius: clamp(18px, 2vw, 24px);
+  background: #4A3020;
+  padding: 0;
+  margin-bottom: 16px;
+
+  display: flex;
+
+  /* חץ בימין + אייקון בשמאל */
+  flex-direction: row;
+
+  align-items: stretch;
+  overflow: hidden;
+  position: relative;
+
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  font-family: 'Heebo', 'Arial Hebrew', Arial, sans-serif;
+  text-align: right;
+  min-height: clamp(78px, 10vw, 110px);
+}
+
+/* פס זהב בצד ימין */
+
+.quiz-btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 6px;
+  height: 100%;
+  background: #C49A3C;
+  border-radius: 0 24px 24px 0;
+}
+
+/* ───── צד ימין - חץ ───── */
+
+.quiz-btn-arrow {
+  width: clamp(38px, 5vw, 52px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  background: transparent;
+  color: #D8C2A0;
+  font-size: clamp(14px, 1.5vw, 18px);
+}
+
+/* ───── מרכז - טקסט ───── */
+
+.quiz-btn > div:nth-child(2) {
+  flex: 1;
+  padding: clamp(12px, 2vw, 20px)
+           clamp(8px, 1vw, 14px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.quiz-btn-title {
+  font-size: clamp(18px, 2vw, 28px);
+  font-weight: 800;
+  color: white;
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+
+.quiz-btn-sub {
+  font-size: clamp(11px, 1.2vw, 14px);
+  color: #D8C2A0;
+  line-height: 1.4;
+}
+
+/* ───── צד שמאל - אייקון ───── */
+
+.quiz-btn-icon {
+  width: clamp(72px, 12vw, 110px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  background: rgba(196, 154, 60, 0.08);
+}
+
+.quiz-btn-icon svg {
+  width: clamp(24px, 4vw, 32px);
+  height: clamp(24px, 4vw, 32px);
+  color: #C49A3C;
+  fill: currentColor;
+}
+
+/* ───────── מובייל קטן ───────── */
+
+@media (max-width: 480px) {
+  .quiz-btn {
+    min-height: 74px;
+    border-radius: 18px;
+  }
+
+  .quiz-btn-title {
+    font-size: 18px;
+  }
+
+  .quiz-btn-sub {
+    font-size: 11px;
+  }
+
+  .quiz-btn-icon {
+    width: 72px;
+  }
+
+  .quiz-btn-arrow {
+    width: 36px;
+  }
+}
 /* ══════════════════════════════════════════
    TOPIC CARD — expandable (no flip)
    ══════════════════════════════════════════ */
