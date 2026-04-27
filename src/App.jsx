@@ -1070,7 +1070,7 @@ const CHAPTERS = [
     "number": "פרק 3",
     "title": "סגל הכשרה",
     "accentColor": "#427AB5",
-    "cardBg": "#FBF3E4",
+    "cardBg": "#ECEBF3",
     "topics": [
       {
         "id": "3.1",
