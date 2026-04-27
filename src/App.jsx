@@ -2241,7 +2241,7 @@ const ICONS = {
           <div className="quiz-btn-icon"><IPencil/></div>
           <div style={{flex:1}}>
             <div className="quiz-btn-title">בחן אותי!</div>
-            <div className="quiz-btn-sub"> 10 שאלות על כול הנושאים </div>
+            <div className="quiz-btn-sub"> 10 שאלות על כל הנושאים </div>
           </div>
           <div className="quiz-btn-arrow"><IArrL/></div>
         </button>
@@ -2407,7 +2407,7 @@ function QuizInstructionsScreen({onStart, onHome}) {
           <div className="instructions-title">שניה לפני המבחן</div>
           <div className="instructions-text">
             המבחן בנוי מ<strong>10 שאלות</strong> על כל הנושאים שלמדת,<br/>
-            במידה ותרצה לחזור על הנושאים ניתן לעשות זאת כעת<br/>
+           במידה ותרצה לחזור על הנושאים ניתן לעשות זאת כעת  .<br/>
             <strong>במהלך המבחן לא ניתן לחזור לנושאים</strong><br/><br/>
             שימו לב, בסיום המבחן תקבלו ציון,<br/>
             צלמו מסך טרם יציאה מהמבחן לשמירת הציון<br/><br/>
