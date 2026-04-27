@@ -2413,7 +2413,7 @@ const ICONS = (id, on) => ({
 
         <div style={{padding:"20px 20px 8px",textAlign:"center"}}>
         <div style={{fontSize:18,fontWeight:700,color:"#3D2912"}}>{ready?"בחירת הפרקים עליהם תיבחן":"לחץ על הפרקים עליהם תרצה להיבחן"}</div>
-        <div style={{fontSize:13,color:"#9A8472",marginTop:4}}>{ready?"לחץ על פרק כדי להוסיפו למבחן":"ניתן לבחור מספר נושאים"}</div>
+        <div style={{fontSize:15,color:"#9A8472",marginTop:4}}>{ready?"לחץ על פרק כדי להוסיפו למבחן":"ניתן לבחור מספר נושאים"}</div>
       </div>
 
 
