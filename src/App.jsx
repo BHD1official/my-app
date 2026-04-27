@@ -2116,16 +2116,16 @@ function TopicCard({topic, accent, bg, isOpen, onToggle}) {
       return <div key={i} className={isItem ? "content-item" : "content-line"}>{t}</div>;
     });
   return (
-<div onClick={handleToggle}  className="topic-card" style={{background: bg, '--accent-color': accent}}>      <div className="topic-row">
-        <div className="topic-book-icon" style={{background: accent}}><IBook/></div>
-        <div className="topic-text">
-          <div className="topic-title">{topic.title}</div>
-          <div className="topic-desc">{topic.description}</div>
-          <button className="topic-toggle-btn" style={{color: accent}}>
+<div  className="topic-card" style={{background: bg, '--accent-color': accent}}>      <div className="topic-row">
+        <div  onClick={handleToggle} className="topic-book-icon" style={{background: accent}}><IBook/></div>
+        <div onClick={handleToggle} className="topic-text">
+          <div  className="topic-title">{topic.title}</div>
+          <div  className="topic-desc">{topic.description}</div>
+          <button onClick={handleToggle} className="topic-toggle-btn" style={{color: accent}}>
             {isOpen ? <IChevU/> : <IChevD/>}
           </button>
         </div>
-        <div className="topic-id-badge" style={{background: accent}}>{topic.id}</div>
+        <div onClick={handleToggle} className="topic-id-badge" style={{background: accent}}>{topic.id}</div>
       </div>
       {isOpen && (
         <div className="topic-content">
