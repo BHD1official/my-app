@@ -2186,7 +2186,41 @@ function WelcomeScreen({onStart}) {
 
 function TopicsScreen({onChapter, onQuiz, onHome}) {
   const [search, setSearch] = useState("");
-  const ICONS = {1:"🎯",2:"📋",3:"👥",4:"🎓",5:"🏛️"};
+const ICONS = {
+  1:  (
+    <svg
+      viewBox="0 0 24 24"
+      width="26"
+      height="26"
+      fill="#FBF3E4"
+    >
+      <path d="M12 3L1 9l11 6 9-4.91V17h2V9M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z" />
+    </svg>
+  ),
+  2:  (
+   <svg viewBox="0 0 24 24" width="26" height="26" fill="#EBF3EF"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"></path></svg>
+  ),
+  3:  (
+   <svg viewBox="0 0 24 24" width="26" height="26" fill="#ECEBF3"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"></path></svg>
+  ),
+  4: (
+   <svg viewBox="0 0 24 24" width="26" height="26" fill="#FDECEA"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"></path></svg>
+  ),
+  5: (
+
+
+
+<svg
+  viewBox="0 0 24 24"
+  width="24"
+  height="24"
+  fill="#F0EDF8"
+>
+  <path d="M2 21h20v-2H2v2zm3-3h4V8H5v10zm1-8h2v2H6v-2zm0 3h2v2H6v-2zm0 3h2v2H6v-2zm5 2h4V4h-4v14zm1-12h2v2h-2V6zm0 3h2v2h-2V9zm0 3h2v2h-2v-2zm0 3h2v2h-2v-2zm5 2h4v-8h-4v8zm1-6h2v2h-2v-2zm0 3h2v2h-2v-2z"/>
+</svg>
+
+  )
+};
   const filtered = CHAPTERS.filter(c=>c.title.includes(search)||c.number.includes(search));
   return (
     <Shell>
@@ -2261,7 +2295,43 @@ function ChapterScreen({chapter, allChapters, onChapter, onHome}) {
 // ── בחירת פרקים – מבוסס על כמות שאלות בפועל ──
 function QuizSelectScreen({onStart, onHome}) {
   const [sel, setSel] = useState([]);
-  const ICONS = {1:"📋",2:"🎯",3:"👥",4:"🎓",5:"🏛️"};
+const ICONS = {
+  1:  (
+    <svg
+      viewBox="0 0 24 24"
+      width="26"
+      height="26"
+      fill="#C49A3C"
+    >
+      <path d="M12 3L1 9l11 6 9-4.91V17h2V9M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z" />
+    </svg>
+  ),
+  2:  (
+   <svg viewBox="0 0 24 24" width="26" height="26" fill="#5F9080"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"></path></svg>
+  ),
+  3:  (
+   <svg viewBox="0 0 24 24" width="26" height="26" fill="#427AB5"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"></path></svg>
+  ),
+  4: (
+ 
+    <svg viewBox="0 0 24 24" width="26" height="26" fill="#C0574A"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"></path></svg>
+
+  ),
+  5: (
+
+
+
+
+<svg
+  viewBox="0 0 24 24"
+  width="24"
+  height="24"
+  fill="#7B6BAF"
+>
+  <path d="M2 21h20v-2H2v2zm3-3h4V8H5v10zm1-8h2v2H6v-2zm0 3h2v2H6v-2zm0 3h2v2H6v-2zm5 2h4V4h-4v14zm1-12h2v2h-2V6zm0 3h2v2h-2V9zm0 3h2v2h-2v-2zm0 3h2v2h-2v-2zm5 2h4v-8h-4v8zm1-6h2v2h-2v-2zm0 3h2v2h-2v-2z"/>
+</svg>
+  )
+};
   const toggle = id=>setSel(p=>p.includes(id)?p.filter(x=>x!==id):[...p,id]);
   const ready = sel.length>0;
   // כמה שאלות זמינות
