@@ -2098,7 +2098,11 @@ function HomeBar({onHome, bg}) {
 
 function SearchBar({value, onChange}) {
   return (
-<></>
+<>
+<div  className="no-search-bar">
+
+</div>
+</>
 
   //  <div className="search-bar">
   //     <ISearch/>
