@@ -2098,10 +2098,14 @@ function HomeBar({onHome, bg}) {
 
 function SearchBar({value, onChange}) {
   return (
-    <div className="search-bar">
-      <ISearch/>
-      <input value={value} onChange={e=>onChange(e.target.value)} placeholder="חפש נושאים..."/>
-    </div>
+<></>
+
+  //  <div className="search-bar">
+  //     <ISearch/>
+  //     <input value={value} onChange={e=>onChange(e.target.value)} placeholder="חפש נושאים..."/>
+  //   </div>
+
+
   );
 }
 
