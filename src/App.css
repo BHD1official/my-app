@@ -1081,3 +1081,17 @@ button { -webkit-appearance: none; touch-action: manipulation; cursor: pointer; 
   justify-content: center;
   box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
+ /*
+.section-title{
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 18px 0 10px;
+  text-align: right;
+}
+
+.sub-item{
+  margin: 6px 0;
+  padding-right: 18px;
+  line-height: 1.7;
+  text-align: right;
+}
