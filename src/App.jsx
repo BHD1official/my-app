@@ -3385,8 +3385,7 @@ onChapter={ch => {
         />
       )}
       {screen === "chapter" && chapter && (
-        <ChapterScreen chapter={chapter} allChapters={CHAPTERS} onChapter={setChapter} onHome={goHome} />
-      )}
+<ChapterScreen chapter={chapter} allChapters={CHAPTERS} onChapter={ch => { setChapter(fixChapter(ch)); setScreen("chapter"); }} onHome={goHome} />      )}
       {screen === "quizSelect" && <QuizSelectScreen onStart={startQuiz} onHome={goHome} />}
       {screen === "quizInstructions" && (
         <QuizInstructionsScreen onStart={() => setScreen("quiz")} onHome={() => setScreen("quizSelect")} />
