@@ -1,61 +1,126 @@
 import { useEffect, useState } from "react";
 
-    
-    export default function TapHint({
+export default function TapHint({
   storageKey = "tapHintSeen",
-  color = "#C49A3C"
+  color = "#C49A3C",
 }) {
+  const [visible, setVisible] = useState(false);
 
-
-    const dismiss = () => {
-  localStorage.setItem(storageKey, "true");
-  setVisible(false);
-
-  if (onDismiss) {
-    onDismiss();
-  }
-};
-const [visible, setVisible] = useState(false);
-
- useEffect(() => {
-  if (!localStorage.getItem(storageKey)) {
-    setVisible(true);
-  }
-}, [storageKey]);
+  useEffect(() => {
+    if (!sessionStorage.getItem(storageKey)) {
+      setVisible(true);
+    }
+  }, [storageKey]);
 
   if (!visible) return null;
 
   return (
-    <div style={{
-      position: "absolute",
-      top: 0, left: 0, right: 0, bottom: 0,
-      pointerEvents: "none",
-      zIndex: 20,
-      overflow: "visible",
-    }}>
+    <div
+      style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        pointerEvents: "none",
+        zIndex: 20,
+        overflow: "visible",
+      }}
+    >
       <svg
         style={{
           position: "absolute",
           top: "50%",
-          right: "50px",
+          right: "40px",
           transform: "translateY(-50%)",
           overflow: "visible",
         }}
-        width="56" height="56" viewBox="0 0 56 56"
+        width="120"
+        height="120"
+        viewBox="0 0 120 120"
         fill="none"
       >
-        <circle cx="28" cy="28" fill="none" stroke={color} strokeWidth="2">
-          <animate attributeName="r" values="2;20" dur="1.8s" begin="0.2s" repeatCount="indefinite"/>
-          <animate attributeName="stroke-opacity" values="0.85;0" dur="1.8s" begin="0.2s" repeatCount="indefinite"/>
+        {/* גל ראשון */}
+        <circle
+          cx="60"
+          cy="60"
+          fill="none"
+          stroke={color}
+          strokeWidth="4"
+        >
+          <animate
+            attributeName="r"
+            values="4;35"
+            dur="1.8s"
+            begin="0.2s"
+            repeatCount="indefinite"
+          />
+          <animate
+            attributeName="stroke-opacity"
+            values="0.9;0"
+            dur="1.8s"
+            begin="0.2s"
+            repeatCount="indefinite"
+          />
         </circle>
-        <circle cx="28" cy="28" fill="none" stroke={color} strokeWidth="1.6">
-          <animate attributeName="r" values="2;28" dur="1.8s" begin="0.45s" repeatCount="indefinite"/>
-          <animate attributeName="stroke-opacity" values="0.6;0" dur="1.8s" begin="0.45s" repeatCount="indefinite"/>
+
+        {/* גל שני */}
+        <circle
+          cx="60"
+          cy="60"
+          fill="none"
+          stroke={color}
+          strokeWidth="3"
+        >
+          <animate
+            attributeName="r"
+            values="4;50"
+            dur="1.8s"
+            begin="0.45s"
+            repeatCount="indefinite"
+          />
+          <animate
+            attributeName="stroke-opacity"
+            values="0.7;0"
+            dur="1.8s"
+            begin="0.45s"
+            repeatCount="indefinite"
+          />
         </circle>
-        <circle cx="28" cy="28" fill="none" stroke={color} strokeWidth="1.2">
-          <animate attributeName="r" values="2;36" dur="1.8s" begin="0.7s" repeatCount="indefinite"/>
-          <animate attributeName="stroke-opacity" values="0.35;0" dur="1.8s" begin="0.7s" repeatCount="indefinite"/>
+
+        {/* גל שלישי */}
+        <circle
+          cx="60"
+          cy="60"
+          fill="none"
+          stroke={color}
+          strokeWidth="2"
+        >
+          <animate
+            attributeName="r"
+            values="4;65"
+            dur="1.8s"
+            begin="0.7s"
+            repeatCount="indefinite"
+          />
+          <animate
+            attributeName="stroke-opacity"
+            values="0.4;0"
+            dur="1.8s"
+            begin="0.7s"
+            repeatCount="indefinite"
+          />
         </circle>
+
+        {/* אצבע במרכז */}
+        <text
+          x="60"
+          y="70"
+          textAnchor="middle"
+          fontSize="34"
+        >
+          👆
+        </text>
       </svg>
     </div>
   );

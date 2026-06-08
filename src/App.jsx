@@ -2777,7 +2777,7 @@ function SearchBar({value, onChange}) {
 
 function TopicCard({topic, accent, bg, isOpen, onToggle}) {
   const dismissHint = () => {
-  localStorage.setItem("tapHintSeen", "true");
+  sessionStorage.setItem("tapHintSeen", "true");
 };
 
   const [activeSection, setActiveSection] = useState(null);
@@ -2802,7 +2802,7 @@ const handleToggle = () => {
 
 
 
-  {!localStorage.getItem("tapHintSeen") &&
+  {!sessionStorage.getItem("tapHintSeen") &&
  ["1.1","2.1","3.1","4.1","5.1"].includes(topic.id) && (
 <TapHint
   storageKey="tapHintSeen"
