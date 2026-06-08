@@ -1,5 +1,7 @@
 import { useState, useMemo } from "react";
 import "./App.css";
+import TapHint from "./TapHint";
+
 import buildingimage from "./assets/buildlogo.png";
 import gapalogo from "./assets/gapalogo.png";
 import bhdlogo from "./assets/bhd-logo.png";
@@ -2774,8 +2776,20 @@ function SearchBar({value, onChange}) {
 }
 
 function TopicCard({topic, accent, bg, isOpen, onToggle}) {
+  const dismissHint = () => {
+  localStorage.setItem("tapHintSeen", "true");
+};
+
   const [activeSection, setActiveSection] = useState(null);
-  const handleToggle = () => { if (isOpen) setActiveSection(null); onToggle(); };
+const handleToggle = () => {
+  dismissHint();
+
+  if (isOpen) {
+    setActiveSection(null);
+  }
+
+  onToggle();
+};
   const formatContent = (text) =>
     text.split("\n").map((line, i) => {
       const t = line.trim();
@@ -2784,11 +2798,23 @@ function TopicCard({topic, accent, bg, isOpen, onToggle}) {
       return <div key={i} className={isItem ? "content-item" : "content-line"}>{t}</div>;
     });
   return (
-<div  className="topic-card" style={{background: bg, '--accent-color': accent}}>      <div className="topic-row">
-        <div  onClick={handleToggle} className="topic-book-icon" style={{background: accent}}><IBook/></div>
+    <div className="topic-card" style={{background: bg, '--accent-color': accent, position: "relative", overflow: "visible"}}>
+
+
+
+  {!localStorage.getItem("tapHintSeen") &&
+ ["1.1","2.1","3.1","4.1","5.1"].includes(topic.id) && (
+<TapHint
+  storageKey="tapHintSeen"
+  color={accent}
+/>)}
+
+
+      <div className="topic-row">
+        <div onClick={handleToggle} className="topic-book-icon" style={{background: accent}}><IBook/></div>
         <div onClick={handleToggle} className="topic-text">
-          <div  className="topic-title">{topic.title}</div>
-          <div  className="topic-desc">{topic.description}</div>
+          <div className="topic-title">{topic.title}</div>
+          <div className="topic-desc">{topic.description}</div>
           <button onClick={handleToggle} className="topic-toggle-btn" style={{color: accent}}>
             {isOpen ? <IChevU/> : <IChevD/>}
           </button>
@@ -2802,7 +2828,11 @@ function TopicCard({topic, accent, bg, isOpen, onToggle}) {
               <div className="topic-content-title" style={{color: accent}}>תוכן הפרק:</div>
               <ul className="sections-list">
                 {topic.sections.map((sec, idx) => (
-                  <li key={idx} className="section-list-item" onClick={() => setActiveSection(idx)}>
+                  <li key={idx} className="section-list-item" onClick={() => {
+  dismissHint();
+  setActiveSection(idx);
+}}
+>
                     <span className="section-list-icon" style={{color: accent}}><IBook/></span>
                     <span className="section-list-label">{sec.title}</span>
                     <span className="section-list-arrow" style={{color: accent}}><IArrL/></span>
@@ -2813,15 +2843,19 @@ function TopicCard({topic, accent, bg, isOpen, onToggle}) {
           ) : (
             <div>
               <div className="section-back-row">
-                <button className="section-back-btn" onClick={() => setActiveSection(null)} style={{color: accent}}><IArrR/> חזרה</button>
+                <button className="section-back-btn" onClick={() => {
+  dismissHint();
+  setActiveSection(null);
+}} 
+style={{color: accent}}><IArrR/> חזרה</button>
                 <div className="section-back-title" style={{color: accent}}>{topic.sections[activeSection].title}</div>
               </div>
               <div className="section-panel-divider" style={{background: accent + "44", margin: "10px 0 12px"}}/>
-<div className="section-content-rtl">
-  {typeof topic.sections[activeSection].content === "string"
-    ? formatContent(topic.sections[activeSection].content)
-    : topic.sections[activeSection].content}
-</div>
+              <div className="section-content-rtl">
+                {typeof topic.sections[activeSection].content === "string"
+                  ? formatContent(topic.sections[activeSection].content)
+                  : topic.sections[activeSection].content}
+              </div>
             </div>
           )}
         </div>
