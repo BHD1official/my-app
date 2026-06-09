@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import "./App.css";
 import TapHint from "./TapHint";
 
@@ -17,6 +17,53 @@ const APP_CONFIG = {
   passThreshold:      70,
   excellentThreshold: 85,
 };
+function normalizeHebrew(text) {
+  if (typeof text !== "string") return "";
+  return text.replace(/["'"״]/g, "").replace(/\s+/g, " ").trim().toLowerCase();
+}
+
+function extractText(content) {
+  if (typeof content === "string") return content;
+  return "";
+}
+
+function topicMatchesSearch(topic, query) {
+  if (!query) return true;
+  const q = normalizeHebrew(query);
+  if (
+    normalizeHebrew(topic.title).includes(q) ||
+    normalizeHebrew(topic.id).includes(q) ||
+    normalizeHebrew(topic.description || "").includes(q)
+  ) return true;
+  return topic.sections.some(sec =>
+    normalizeHebrew(sec.title).includes(q) ||
+    normalizeHebrew(extractText(sec.content)).includes(q)
+  );
+}
+
+function chapterMatchesSearch(chapter, query) {
+  if (!query) return true;
+  const q = normalizeHebrew(query);
+  if (normalizeHebrew(chapter.title).includes(q) || normalizeHebrew(chapter.number).includes(q)) return true;
+  return chapter.topics.some(t => topicMatchesSearch(t, query));
+}
+function highlightText(text, query, color) {
+  if (!query || !text || typeof text !== "string") return text;
+  const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const regex = new RegExp(`(${escaped})`, "gi");
+  const parts = text.split(regex);
+  return parts.map((part, i) =>
+    regex.test(part)
+      ? <mark key={i} style={{
+          background: color + "35",
+          color: color,
+          borderRadius: 3,
+          padding: "0 2px",
+          fontWeight: 700
+        }}>{part}</mark>
+      : part
+  );
+}
 
 const CHAPTERS = [
   {
@@ -2763,94 +2810,144 @@ function SearchBar({value, onChange}) {
 <>
 <div  className="no-search-bar">
 
+   <div className="search-bar">
+      <ISearch/>
+      <input value={value} onChange={e=>onChange(e.target.value)} placeholder="חפש נושאים..."/>
+    </div>
+    
 </div>
 </>
 
-  //  <div className="search-bar">
-  //     <ISearch/>
-  //     <input value={value} onChange={e=>onChange(e.target.value)} placeholder="חפש נושאים..."/>
-  //   </div>
 
 
   );
 }
 
-function TopicCard({topic, accent, bg, isOpen, onToggle}) {
-  const dismissHint = () => {
-  sessionStorage.setItem("tapHintSeen", "true");
-};
+function TopicCard({topic, accent, bg, isOpen, onToggle, query}) {
+  const dismissHint = () => sessionStorage.setItem("tapHintSeen", "true");
+
+  // מוצא את הסעיף הראשון שמכיל את החיפוש בתוכן
+  const matchingSectionIndex = useMemo(() => {
+    if (!query || !isOpen) return null;
+    const q = normalizeHebrew(query);
+    const idx = topic.sections.findIndex(sec => {
+      const inTitle = normalizeHebrew(sec.title).includes(q);
+      const inContent = typeof sec.content === "string" && normalizeHebrew(sec.content).includes(q);
+      return inTitle || inContent;
+    });
+    return idx >= 0 ? idx : null;
+  }, [query, isOpen, topic.sections]);
+
 
   const [activeSection, setActiveSection] = useState(null);
-const handleToggle = () => {
-  dismissHint();
 
-  if (isOpen) {
-    setActiveSection(null);
+  // איפוס כשסוגרים את הכרטיס
+  useEffect(() => {
+    if (!isOpen) setActiveSection(null);
+  }, [isOpen]);
+
+ 
+
+  const handleToggle = () => {
+    dismissHint();
+    if (isOpen) setActiveSection(null);
+    onToggle();
+
+
   }
 
-  onToggle();
-};
-  const formatContent = (text) =>
-    text.split("\n").map((line, i) => {
+  const formatContent = (text) => {
+    return text.split("\n").map((line, i) => {
       const t = line.trim();
       if (!t) return <div key={i} style={{height:"8px"}}/>;
       const isItem = /^[א-ת]\./.test(t) || /^\)[0-9]/.test(t);
-      return <div key={i} className={isItem ? "content-item" : "content-line"}>{t}</div>;
+      return (
+        <div key={i} className={isItem ? "content-item" : "content-line"}>
+          {highlightText(t, query, accent)}
+        </div>
+      );
     });
+  };
+
+  // בדיקה אם סעיף מסוים מכיל תוצאה (לאינדיקטור)
+  const sectionHasMatch = (sec) => {
+    if (!query) return false;
+    const q = normalizeHebrew(query);
+    return (
+      normalizeHebrew(sec.title).includes(q) ||
+      (typeof sec.content === "string" && normalizeHebrew(sec.content).includes(q))
+    );
+  };
+
   return (
-    <div className="topic-card" style={{background: bg, '--accent-color': accent, position: "relative", overflow: "visible"}}>
-
-
-
-  {!sessionStorage.getItem("tapHintSeen") &&
- ["1.1","2.1","3.1","4.1","5.1"].includes(topic.id) && (
-<TapHint
-  storageKey="tapHintSeen"
-  color={accent}
-/>)}
-
+    <div className="topic-card" style={{background: bg, '--accent-color': accent, position:"relative", overflow:"visible"}}>
+      {!sessionStorage.getItem("tapHintSeen") &&
+        ["1.1","2.1","3.1","4.1","5.1"].includes(topic.id) && (
+        <TapHint storageKey="tapHintSeen" color={accent}/>
+      )}
 
       <div className="topic-row">
         <div onClick={handleToggle} className="topic-book-icon" style={{background: accent}}><IBook/></div>
         <div onClick={handleToggle} className="topic-text">
-          <div className="topic-title">{topic.title}</div>
-          <div className="topic-desc">{topic.description}</div>
+          <div className="topic-title">{highlightText(topic.title, query, accent)}</div>
+          <div className="topic-desc">{highlightText(topic.description, query, accent)}</div>
           <button onClick={handleToggle} className="topic-toggle-btn" style={{color: accent}}>
             {isOpen ? <IChevU/> : <IChevD/>}
           </button>
         </div>
         <div onClick={handleToggle} className="topic-id-badge" style={{background: accent}}>{topic.id}</div>
       </div>
+
       {isOpen && (
         <div className="topic-content">
           {activeSection === null ? (
             <div>
               <div className="topic-content-title" style={{color: accent}}>תוכן הפרק:</div>
               <ul className="sections-list">
-                {topic.sections.map((sec, idx) => (
-                  <li key={idx} className="section-list-item" onClick={() => {
-  dismissHint();
-  setActiveSection(idx);
-}}
->
-                    <span className="section-list-icon" style={{color: accent}}><IBook/></span>
-                    <span className="section-list-label">{sec.title}</span>
-                    <span className="section-list-arrow" style={{color: accent}}><IArrL/></span>
-                  </li>
-                ))}
+                {topic.sections.map((sec, idx) => {
+                  const hasMatch = sectionHasMatch(sec);
+                  return (
+                    <li key={idx}
+                      className="section-list-item"
+                      onClick={() => { dismissHint(); setActiveSection(idx); }}
+                      style={hasMatch ? {
+                        background: accent + "15",
+                        borderRight: `3px solid ${accent}`,
+                        borderRadius: 8
+                      } : {}}>
+                      <span className="section-list-icon" style={{color: accent}}><IBook/></span>
+                      <span className="section-list-label" style={{flex:1}}>
+                        {highlightText(sec.title, query, accent)}
+                      </span>
+                      {hasMatch && (
+                        <span style={{
+                          fontSize: 11,
+                          background: accent,
+                          color: "white",
+                          borderRadius: 10,
+                          padding: "2px 7px",
+                          marginLeft: 6,
+                          fontWeight: 700,
+                          whiteSpace: "nowrap"
+                        }}>נמצא כאן</span>
+                      )}
+                      <span className="section-list-arrow" style={{color: accent}}><IArrL/></span>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           ) : (
             <div>
               <div className="section-back-row">
-                <button className="section-back-btn" onClick={() => {
-  dismissHint();
-  setActiveSection(null);
-}} 
-style={{color: accent}}><IArrR/> חזרה</button>
-                <div className="section-back-title" style={{color: accent}}>{topic.sections[activeSection].title}</div>
+                <button className="section-back-btn"
+                  onClick={() => { dismissHint(); setActiveSection(null); }}
+                  style={{color: accent}}><IArrR/> חזרה</button>
+                <div className="section-back-title" style={{color: accent}}>
+                  {highlightText(topic.sections[activeSection].title, query, accent)}
+                </div>
               </div>
-              <div className="section-panel-divider" style={{background: accent + "44", margin: "10px 0 12px"}}/>
+              <div className="section-panel-divider" style={{background: accent + "44", margin:"10px 0 12px"}}/>
               <div className="section-content-rtl">
                 {typeof topic.sections[activeSection].content === "string"
                   ? formatContent(topic.sections[activeSection].content)
@@ -2863,6 +2960,8 @@ style={{color: accent}}><IArrR/> חזרה</button>
     </div>
   );
 }
+
+
 
 function WelcomeScreen({onStart}) {
   return (
@@ -2924,7 +3023,7 @@ const ICONS = {
   )
 };
 
-  const filtered = CHAPTERS.filter(c=>c.title.includes(search)||c.number.includes(search));
+const filtered = CHAPTERS.filter(c => chapterMatchesSearch(c, search));
   return (
     <Shell>
       <PillHeader title="יסודות מנצחים" accentColor="#C0574A"/>
@@ -2995,7 +3094,7 @@ function ChapterScreen({chapter, allChapters, onChapter, onHome}) {
   const idx = allChapters.findIndex(c=>c.id===chapter.id);
   const nextCh = allChapters[idx+1]||null;
   const prevCh = allChapters[idx-1]||null;
-  const filtered = chapter.topics.filter(t=>t.title.includes(search)||t.id.includes(search));
+const filtered = chapter.topics.filter(t => topicMatchesSearch(t, search));
   return (
     <Shell>
       <div className="chapter-screen-top">
@@ -3004,9 +3103,9 @@ function ChapterScreen({chapter, allChapters, onChapter, onHome}) {
       </div>
       <div className="chapter-screen-scroll">
         {filtered.map(t=>(
-          <TopicCard key={t.id} topic={t} accent={chapter.accentColor} bg={chapter.cardBg}
-            isOpen={openIds.has(t.id)}
-            onToggle={()=>setOpenIds(prev=>{const s=new Set(prev);s.has(t.id)?s.delete(t.id):s.add(t.id);return s;})}/>
+   <TopicCard key={t.id} topic={t} accent={chapter.accentColor} bg={chapter.cardBg}
+  isOpen={openIds.has(t.id)}
+onToggle={()=>setOpenIds(prev=>{const s=new Set(prev);s.has(t.id)?s.delete(t.id):s.add(t.id);return s;})}  query={search}/>
         ))}
       </div>
       {/* ── ניווט תחתון מוקטן ── */}
