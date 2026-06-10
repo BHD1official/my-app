@@ -126,6 +126,10 @@ button { -webkit-appearance: none; touch-action: manipulation; cursor: pointer; 
 .quiz-header .pencil-circle    { width: 56px; height: 56px; border-radius: 50%; background: #C49A3C; color: white; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; }
 .quiz-header .quiz-header-title{ font-size: 28px; font-weight: 800; }
 .back-btn { background: none; border: none; color: white; font-size: 20px; padding: 14px 20px 0; display: block; }
+.back-btn {
+    transform: scaleX(-1);
+}
+
 .chapter-nav-sticky {
   position: fixed;
   bottom: 0;
